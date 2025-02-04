@@ -26,14 +26,6 @@ The motivation for this new extension was that `xdebug-helper` will soon no long
 4) Choose "Load unpacked extension"
 5) select the `src` directory inside the `xdebug-extension` directory you downloaded in step one.
 
-### Firefox
-
-1) Clone the `xdebug-extension` repository
-2) Go to `about:debugging`
-3) Click on "This Firefox"
-4) Choose "Load Temporary Add-on…"
-5) Select the `manifest.json` file in the `xdebug-extension/src` directory you downloaded in step one.
-
 ### Edge 
 
 1) Clone the `xdebug-extension` repository
