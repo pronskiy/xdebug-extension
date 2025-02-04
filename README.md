@@ -9,8 +9,12 @@ The motivation for this new extension was that `xdebug-helper` will soon no long
 ## Features
 
 - Set custom IDE key, trace trigger, and profile triggers
+  
+![Xdebug Extension options](img/xdebug-extension-options.png)
+
 - Toggle debugging, profiling, and tracing
 
+![Xdebug Extension popup](img/xdebug-extension-popup.png)
 
 ## Installation
 
