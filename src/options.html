@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xdebug Extension Options</title>
+    <link rel="stylesheet" type="text/css" href="options.css">
+</head>
+
+<body>
+    <h1>Xdebug Extension</h1>
+    <form>
+        <fieldset>
+            <legend>Options</legend>
+            <label for="idekey">IDE Key</label>
+            <input type="text" id="idekey" placeholder="IDE key" list="idekeys" value="">
+            <datalist id="idekeys">
+                <option value="PHPSTORM">PhpStorm</option>
+                <option value="XDEBUG_ECLIPSE">Eclipse</option>
+                <option value="netbeans-xdebug">NetBeans</option>
+                <option value="macgdbp">MacGDBp</option>
+            </datalist>
+            <label for="tracetrigger">Trace Trigger</label>
+            <input type="text" id="tracetrigger" placeholder="Trace trigger" value="">
+            <label for="profiletrigger">Profile Trigger</label>
+            <input type="text" id="profiletrigger" placeholder="Profile trigger" value="">
+            <button id="save">Save</button>
+        </fieldset>
+    </form>
+    <div id="help">
+        <h2>Shortcuts</h2>
+        <p><kbd>Alt</kbd> + <kbd>X</kbd> toggle popup</p>
+        <p><kbd>Alt</kbd> + <kbd>C</kbd> toggle debugging</p>
+        <p><kbd>Alt</kbd> + <kbd>V</kbd> toggle profiling</p>
+        <p><kbd>Alt</kbd> + <kbd>V</kbd> toggle profiling</p>
+    </div>
+    <a href="https://github.com/FraserChapman/xdebug-extension" target="_blank">
+        <img src="img/github25.png" alt="GitHub logo" width="25" height="25">
+        xdebug-extension
+    </a>
+    <script src="options.js"></script>
+</body>
+
+</html>
