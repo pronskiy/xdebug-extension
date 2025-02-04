@@ -26,6 +26,16 @@ The motivation for this new extension was that `xdebug-helper` will soon no long
 4) Choose "Load unpacked extension"
 5) select the `src` directory inside the `xdebug-extension` directory you downloaded in step one.
 
+### Firefox
+
+_NB: this requires building to account for differences in the manifest file_
+
+1) Clone the `xdebug-extension` repository
+2) Run the `build.sh` file 
+3) Click on "This Firefox"
+4) Choose "Load Temporary Add-on…"
+5) Select the `xdebug-extension@[version].xpi` file in the `xdebug-extension/build` directory.
+   
 ### Edge 
 
 1) Clone the `xdebug-extension` repository
@@ -33,6 +43,8 @@ The motivation for this new extension was that `xdebug-helper` will soon no long
 3) Turn on "Developer Mode"
 4) Choose "Load unpacked"
 5) select the `src` directory inside the `xdebug-extension` directory you downloaded in step one.
+
+   
 ## Usage
 
 Once installed, you can:
