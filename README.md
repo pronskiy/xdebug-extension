@@ -28,13 +28,20 @@ The motivation for this new extension was that `xdebug-helper` will soon no long
 
 ### Firefox
 
-_NB: this requires building to account for differences in the manifest file_
+_NB: this requires the built version to account for differences in the manifest file_
 
 1) Clone the `xdebug-extension` repository
 2) Run the `build.sh` file 
 3) Click on "This Firefox"
 4) Choose "Load Temporary Add-on…"
 5) Select the `xdebug-extension@[version].xpi` file in the `xdebug-extension/build` directory.
+
+Alternatively 
+
+1) Download the latest xpi file from [releases](https://github.com/FraserChapman/xdebug-extension/releases) e.g `xdebug-extension@1.0.0.xpi`
+2) Click on "This Firefox"
+3) Choose "Load Temporary Add-on…"
+4) Select the `xdebug-extension@[version].xpi` file you downloaded in step one.
    
 ### Edge 
 
