@@ -8,7 +8,11 @@ This work is based on some of the ideas in the legacy [Xdebug helper](https://ch
 
 The motivation for this new extension was that `xdebug-helper` will soon no longer be supported and was limited to Chrome in any case. I had originally intended to update and submit a PR on that extension, but realized that it was probably better to just start from scratch using a more modern approach.
 
-_* It may also work on other Chromium based browsers (Opera, Vivaldi, Brave, etc) that allow Chrome extensions, however these are untested and are not offically supported by this project._
+
+
+[![Available in the Mozilla Addons](img/for-firefox.png)](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-extension/)
+
+_* It may also work on other Chromium based browsers (Opera, Vivaldi, Brave, etc) that allow Chrome extensions, however these are untested and are not offically supported by this project. Currently awiaitng review in the Chrome Web Store, and Edge Addons_
 
 ## Features
 
@@ -31,6 +35,8 @@ _* It may also work on other Chromium based browsers (Opera, Vivaldi, Brave, etc
 5) select the `src` directory inside the `xdebug-extension` directory you downloaded in step one.
 
 ### Firefox
+
+[![Available in the Mozilla Addons](img/for-firefox.png)](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-extension/)
 
 _NB: this requires the built version to account for differences in the manifest file_
 
