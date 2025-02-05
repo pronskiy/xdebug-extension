@@ -36,9 +36,11 @@ _* It may also work on other Chromium based browsers (Opera, Vivaldi, Brave, etc
 
 ### Firefox
 
+From Mozilla Addons
+
 [![Available in the Mozilla Addons](img/for-firefox.png)](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-extension/)
 
-_NB: this requires the built version to account for differences in the manifest file_
+Build from source
 
 1) Clone the `xdebug-extension` repository
 2) Run the `build.sh` file 
@@ -46,7 +48,7 @@ _NB: this requires the built version to account for differences in the manifest 
 4) Choose "Load Temporary Add-on…"
 5) Select the `xdebug-extension@[version].xpi` file in the `xdebug-extension/build` directory.
 
-Alternatively 
+Prebuilt version
 
 1) Download the latest xpi file from [releases](https://github.com/FraserChapman/xdebug-extension/releases) e.g `xdebug-extension@1.0.0.xpi`
 2) Click on "This Firefox"
