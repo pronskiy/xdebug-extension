@@ -93,6 +93,12 @@ Once installed, you can:
 
 ![firefox-extensions/shortcuts](img/firefox-extensions-shortcuts.png)
 
+### Edge 
+
+1) shortcuts can be configured via `edge://extensions/shortcuts`
+
+![edge-extensions-shortcuts](img/edge-extensions-shortcuts.png)
+
 ## Contributing
 
 If you want to contribute and make it even better, feel free to fork the repository and submit a pull request. Your contributions are always welcome!
