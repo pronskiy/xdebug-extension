@@ -75,6 +75,24 @@ Once installed, you can:
 - Click the extension icon to open the popup menu and select a debugging state: Debug, Profile, Trace, or Disable.
 - Clink the "options" link in the popupto configure the IDE key, profile trigger, and trace trigger. Alternatively, right click the extension icon and choose "Options".
 
+### Custom shortcuts
+
+#### Chrome
+
+1) shortcuts can be configured via `chrome://extensions/shortcuts`
+
+![chrome-extensions-shortcuts](img/chrome-extensions-shortcuts.png)
+
+#### FireFox 
+
+1) Click the menu button
+2) Click Add-ons and themes
+3) Select Extensions.
+4) Click the Tools for all add-ons cogwheel.
+5) Click `Manage Extension Shortcuts` in the menu.
+
+![firefox-extensions/shortcuts](img/firefox-extensions-shortcuts.png)
+
 ## Contributing
 
 If you want to contribute and make it even better, feel free to fork the repository and submit a pull request. Your contributions are always welcome!
