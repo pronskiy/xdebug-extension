@@ -93,7 +93,7 @@ Once installed, you can:
 
 ![firefox-extensions/shortcuts](img/firefox-extensions-shortcuts.png)
 
-### Edge 
+#### Edge 
 
 1) shortcuts can be configured via `edge://extensions/shortcuts`
 
