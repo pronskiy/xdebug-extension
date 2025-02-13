@@ -1,5 +1,3 @@
-const config = require('./test-config');
-
 const {
     launchBrowser,
     getExtensionPath,
@@ -8,16 +6,13 @@ const {
     waitForCookieToExist,
     waitForCookieToClear,
     waitForStoredValue,
-} = require('./test-utils.js');
+} = require('./utils.js');
 
 // Test Setup
 
-let browser = null;
-let extensionPath = null;
-
 beforeEach(async () => {
-    browser = await launchBrowser(config);
-    extensionPath = await getExtensionPath(browser, config);
+    await launchBrowser();
+    await getExtensionPath();
 });
 
 afterEach(async () => {
@@ -27,7 +22,6 @@ afterEach(async () => {
         }
     } finally {
         browser = null;
-        extensionPath = null;
     }
 });
 
@@ -132,7 +126,7 @@ describe('Popup Tests', () => {
         // Arrange
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
-        const popupPage = await openPopup(browser);
+        const popupPage = await openPopup();
         await popupPage.waitForSelector('label[for="debug"]');
 
         // Act
@@ -150,7 +144,7 @@ describe('Popup Tests', () => {
         // Arrange
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
-        const popupPage = await openPopup(browser);
+        const popupPage = await openPopup();
         await popupPage.waitForSelector('label[for="trace"]');
 
         // Act
@@ -168,7 +162,7 @@ describe('Popup Tests', () => {
         // Arrange
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
-        const popupPage = await openPopup(browser);
+        const popupPage = await openPopup();
         await popupPage.waitForSelector('label[for="profile"]');
 
         // Act
@@ -186,7 +180,7 @@ describe('Popup Tests', () => {
         // Arrange
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
-        const popupPage = await openPopup(browser);
+        const popupPage = await openPopup();
 
         // Act
         await popupPage.click('label[for="disable"]');
@@ -201,7 +195,7 @@ describe('Popup Tests', () => {
         // Arrange
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
-        const popupPage = await openPopup(browser);
+        const popupPage = await openPopup();
 
         // Act
         await popupPage.click('#options');

@@ -1,70 +1,63 @@
 const puppeteer = require('puppeteer-core');
 
 /**
- * Launches the browser with the extension loaded.
- * @param {object} config The configuration object.
- * @returns {Promise<puppeteer.Browser>} A Promise that resolves with the launched Puppeteer Browser instance.
- * @throws {Error} If the browser fails to launch.
+ * Launches a browser instance with the extension loaded and assigns it to `browser`.
+ * @returns {Promise<void>} A Promise that resolves when the browser is launched.
+ * @throws {Error} If the browser fails to launch
  */
-async function launchBrowser(config) {
-    try {
-        return await puppeteer.launch({
-            executablePath: config.browserPath,
-            headless: false,
-            slowMo: config.slowMo,
-            devtools: config.devtools,
-            args: [
-                '--window-name=Xdebug Extension Tests',
-                '--window-size=800,600',
-                `--disable-extensions-except=${config.extensionDir}`,
-                `--load-extension=${config.extensionDir}`
-            ],
-            timeout: config.timeout
-        });
-    } catch (error) {
-        console.error("Failed to launch browser:", error);
-        throw error;
-    }
+async function launchBrowser() {
+    browser = await puppeteer.launch({
+        executablePath: config.browserPath,
+        headless: false,
+        slowMo: config.slowMo,
+        devtools: config.devtools,
+        args: [
+            '--window-name=Xdebug Extension Tests',
+            '--window-size=800,600',
+            `--disable-extensions-except=${config.extensionDir}`,
+            `--load-extension=${config.extensionDir}`
+        ],
+        timeout: config.timeout
+    });
 }
 
 /**
- * Gets the extension path by inspecting the service worker.
- * @param {puppeteer.Browser} browser The browser instance.
- * @param {object} config The configuration object.
- * @returns {Promise<string>} A Promise that resolves with the extension path (chrome-extension://...).
- * @throws {Error} If the extension path cannot be determined.
+ * Waits for the extension's service worker and returns the worker instance.
+ * @param {puppeteer.Browser} browser The Puppeteer browser instance.
+ * @returns {Promise<puppeteer.Worker>} A Promise that resolves to the service worker instance.
+ * @throws {Error} If the service worker is not found.
  */
-async function getExtensionPath(browser, config) {
-    try {
-        const [page] = await browser.pages();
-        await page.goto(config.examplePage);
-        const workerTarget = await browser.waitForTarget(target =>
-            target.type() === 'service_worker'
-            && target.url().endsWith('service_worker.js'));
-        const worker = await workerTarget.worker();
-        const extensionId = await worker.evaluate(() => chrome.runtime.id);
-        return `chrome-extension://${extensionId}`;
-    } catch (error) {
-        console.error("Failed to get extension path:", error);
-        throw error;
-    }
-}
-
-/**
- * Opens the extension's popup.
- * *
- * @param {puppeteer.Browser} browser The Puppeteer Browser instance.
- * @returns {Promise<puppeteer.Page>} A Promise that resolves with the Puppeteer Page object representing the opened popup.
- * @throws {Error} If the service worker or popup page are not found within a reasonable timeout.
- */
-async function openPopup(browser) {
+async function getExtensionServiceWorker() {
     const workerTarget = await browser.waitForTarget(
         target =>
             target.type() === 'service_worker' &&
             target.url().endsWith('service_worker.js'),
     );
+    return await workerTarget.worker();
+}
 
-    const worker = await workerTarget.worker();
+
+/**
+ * Retrieves the extension's path by inspecting the service worker.
+ * @returns {Promise<void>} A Promise that resolves when the extension path is determined.
+ * @throws {Error} If the extension path cannot be determined
+ */
+async function getExtensionPath() {
+    const [page] = await browser.pages();
+    await page.goto(config.examplePage);
+    const worker = await getExtensionServiceWorker();
+    const extensionId = await worker.evaluate(() => chrome.runtime.id);
+    extensionPath = `chrome-extension://${extensionId}`;
+}
+
+/**
+ * Opens the extension's popup.
+ * 
+ * @returns {Promise<puppeteer.Page>} A Promise that resolves with the Puppeteer Page object representing the opened popup.
+ * @throws {Error} If the service worker or popup page are not found within a reasonable timeout.
+ */
+async function openPopup() {
+    const worker = await getExtensionServiceWorker();
     await worker.evaluate('chrome.action.openPopup();');
     const popupTarget = await browser.waitForTarget(target => target.type() === 'page' && target.url().endsWith('popup.html'));
     return popupTarget.asPage();

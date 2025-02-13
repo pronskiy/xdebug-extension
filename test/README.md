@@ -62,6 +62,53 @@ Snapshots:   0 total
 Time:        11.989 s, estimated 12 s
 Ran all test suites matching /./i.
 ```
+## Configuration
+
+You can customize the test execution using the following environment variables.
+
+---
+
+`BROWSER_PATH` Specifies the path to the browser executable. Defaults to `/snap/bin/chromium`.
+```bash
+BROWSER_PATH=/path/to/your/browser npm test 
+```
+---
+
+`EXAMPLE_PAGE` Sets the URL of the page used in tests. Defaults to `https://example.com/`.
+```bash
+EXAMPLE_PAGE=https://www.google.com/ npm test
+```
+---
+
+`DEFAULT_KEY` Configures the default IDE key for the Xdebug extension. Defaults to `XDEBUG_ECLIPSE`.
+```bash
+DEFAULT_KEY=MY_CUSTOM_KEY npm test 
+```
+---
+
+`TIMEOUT` Sets the timeout for browser operations (in milliseconds). Defaults to `3000` (3 seconds).
+```bash
+TIMEOUT=60000 npm test
+```
+---
+
+`HEADLESS` Determines whether to run the browser in headless mode. Set to true for headless, false for non-headless. Defaults to `false`.
+```bash
+HEADLESS=true npm test
+```
+---
+
+`SLOW_MO` Slows down Puppeteer operations by the specified amount of time (in milliseconds). Defaults to `0`.
+```bash
+SLOW_MO=100 npm test
+```
+---
+
+`DEV_TOOLS` Specifies whether to open DevTools when launching the browser. Set to true to open DevTools, false to keep them closed. Defaults to false.
+
+```bash
+DEV_TOOLS=true npm test
+```
 
 ## Troubleshooting
 
