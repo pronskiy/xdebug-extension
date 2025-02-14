@@ -39,6 +39,18 @@ describe('Options Tests', () => {
         await expect(page.$('#profiletrigger')).resolves.not.toBeNull(); // Profile Trigger
         await expect(page.$('button[type="reset"]')).resolves.not.toBeNull(); // Clear
         await expect(page.$('button[type="submit"]')).resolves.not.toBeNull(); // Save
+        await expect(page.$('#help')).resolves.not.toBeNull(); // Help
+    });
+
+    test('Should render default shortcuts correctly', async () => {
+        // Arrange
+        const [page] = await browser.pages();
+        await page.goto(`${extensionPath}/options.html`);
+
+        // Assert
+        const helpElement = await page.waitForSelector('#help');
+        const pCount = await helpElement.$$eval('p', e => e.length);
+        expect(pCount).toBe(4);
     });
 
     test('Should set IDE Key correctly and save', async () => {
