@@ -139,10 +139,9 @@ describe('Popup Tests', () => {
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
         const popupPage = await openPopup();
-        await popupPage.waitForSelector('label[for="debug"]');
 
         // Act
-        await popupPage.click('label[for="debug"]');
+        await popupPage.locator('label[for="debug"]').click();
 
         // Assert
         await waitForCookieToExist(page);
@@ -157,10 +156,9 @@ describe('Popup Tests', () => {
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
         const popupPage = await openPopup();
-        await popupPage.waitForSelector('label[for="trace"]');
 
         // Act
-        await popupPage.click('label[for="trace"]');
+        await popupPage.locator('label[for="trace"]').click();
 
         // Assert
         await waitForCookieToExist(page);
@@ -175,10 +173,9 @@ describe('Popup Tests', () => {
         const [page] = await browser.pages();
         await page.goto(config.examplePage);
         const popupPage = await openPopup();
-        await popupPage.waitForSelector('label[for="profile"]');
 
         // Act
-        await popupPage.click('label[for="profile"]');
+        await popupPage.locator('label[for="profile"]').click();
 
         // Assert
         await waitForCookieToExist(page);
@@ -195,7 +192,7 @@ describe('Popup Tests', () => {
         const popupPage = await openPopup();
 
         // Act
-        await popupPage.click('label[for="disable"]');
+        await popupPage.locator('label[for="disable"]').click();
 
         // Assert
         await waitForCookieToClear(page);
