@@ -25,12 +25,12 @@ jobs:
 
       - name: Run Tests
         working-directory: ./test
-        run: BROWSER_PATH=/usr/bin/chromium-browser npm test
+        run: BROWSER_PATH=/usr/bin/chromium-browser npm test --no-sandbox # Add --no-sandbox
 
       # - name: Upload test artifacts
       #   if: always()
       #   uses: actions/upload-artifact@v3
       #   with:
       #     name: test-results
-      #     path: ./test/test-output.txt # Or path to your reports
+      #     path: ./test/test-output.txt
       #     retention-days: 1
