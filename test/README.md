@@ -92,12 +92,6 @@ TIMEOUT=60000 npm test
 ```
 ---
 
-`HEADLESS` Determines whether to run the browser in headless mode. Set to true for headless, false for non-headless. Defaults to `false`.
-```bash
-HEADLESS=true npm test
-```
----
-
 `SLOW_MO` Slows down Puppeteer operations by the specified amount of time (in milliseconds). Defaults to `0`.
 ```bash
 SLOW_MO=100 npm test
