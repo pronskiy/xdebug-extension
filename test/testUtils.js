@@ -8,12 +8,13 @@ const puppeteer = require('puppeteer-core');
 async function launchBrowser() {
     browser = await puppeteer.launch({
         executablePath: config.browserPath,
-        headless: false,
+        headless: config.headless,
         slowMo: config.slowMo,
         devtools: config.devtools,
         args: [
             '--window-name=Xdebug Extension Tests',
             '--window-size=800,600',
+            '--no-first-run',
             `--disable-extensions-except=${config.extensionDir}`,
             `--load-extension=${config.extensionDir}`
         ],
@@ -33,6 +34,7 @@ async function getExtensionServiceWorker() {
             target.type() === 'service_worker' &&
             target.url().endsWith('service_worker.js'),
     );
+
     return await workerTarget.worker();
 }
 
@@ -43,11 +45,12 @@ async function getExtensionServiceWorker() {
  * @throws {Error} If the extension path cannot be determined
  */
 async function getExtensionPath() {
-    const [page] = await browser.pages();
-    await page.goto(config.examplePage);
+    const page = await openExamplePage();
     const worker = await getExtensionServiceWorker();
     const extensionId = await worker.evaluate(() => chrome.runtime.id);
     extensionPath = `chrome-extension://${extensionId}`;
+
+    await page.close();
 }
 
 /**
@@ -60,8 +63,35 @@ async function openPopup() {
     const worker = await getExtensionServiceWorker();
     await worker.evaluate('chrome.action.openPopup();');
     const popupTarget = await browser.waitForTarget(target => target.type() === 'page' && target.url().endsWith('popup.html'));
+
     return popupTarget.asPage();
 }
+
+/**
+ * Opens the extension's options.
+ * 
+ * @returns {Promise<puppeteer.Page>} A Promise that resolves with the Puppeteer Page object representing the opened options.
+ * @throws {Error} If the options page is not found within a reasonable timeout.
+ */
+async function openOptions() {
+    const page = await browser.newPage();
+    await page.goto(`${extensionPath}/options.html`);
+
+    return page;
+}
+
+/**
+ * Opens the config.examplePage
+ * @returns {Promise<puppeteer.Page>} A Promise that resolves with the Puppeteer Page object representing the example page.
+ * @throws {Error} If the example page is not found within a reasonable timeout.
+ */
+async function openExamplePage() {
+    const page = await browser.newPage();
+    await page.goto(config.examplePage);
+
+    return page;
+}
+
 
 /**
  * Finds a specific cookie by name.
@@ -114,6 +144,8 @@ module.exports = {
     launchBrowser,
     getExtensionPath,
     openPopup,
+    openOptions,
+    openExamplePage,
     findCookie,
     waitForCookieToExist,
     waitForCookieToClear,
