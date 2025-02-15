@@ -135,7 +135,3 @@ If you are using a non-GUI distribution, such as in WSL/WSL2, you will need to s
 ```bash
 export DISPLAY=:0
 ```
-
-### net::ERR_SSL_PROTOCOL_ERROR at https://example.com/
-
-If the example page fails the 
