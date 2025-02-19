@@ -16,17 +16,34 @@ describe('Options Tests', () => {
         await expect(options.$('button[type="reset"]')).resolves.not.toBeNull(); // Clear
         await expect(options.$('button[type="submit"]')).resolves.not.toBeNull(); // Save
         await expect(options.$('#help')).resolves.not.toBeNull(); // Help
+        await options.close();
     });
 
     test('Should render default shortcuts correctly', async () => {
         // Arrange
         const options = await openOptions();
+        const commands = await options.evaluate(() => {
+            const shortcuts = {};
+            document.querySelectorAll('#help p').forEach(p => {
+                const kbdElements = p.querySelectorAll('kbd');
+                if (kbdElements.length === 2) {
+                    const shortcut = Array.from(kbdElements).map(kbd => kbd.textContent).join('+');
+                    shortcuts[shortcut] = p.lastChild.textContent.trim();
+                }
+            });
+
+            return shortcuts;
+        });
 
         // Assert
-        const helpDiv = await options.waitForSelector('#help');
-        const pCount = await helpDiv.$$eval('p', e => e.length);
-        expect(pCount).toBe(4);
+        expect(Object.entries(commands).length).toBe(4);
+        expect(commands['Alt+X']).toBe('execute action')
+        expect(commands['Alt+C']).toBe('toggle debug')
+        expect(commands['Alt+V']).toBe('toggle profile')
+        expect(commands['Alt+B']).toBe('toggle trace')
+        await options.close();
     });
+
 
     test('Should set IDE Key correctly and save', async () => {
         // Arrange
@@ -41,6 +58,7 @@ describe('Options Tests', () => {
         await options.waitForSelector('form.success');
         const storedValue = await waitForStoredValue(options, 'xdebugIdeKey');
         expect(storedValue).toBe(key);
+        await options.close();
     });
 
     test('Should set Trace Trigger correctly and save', async () => {
@@ -56,6 +74,7 @@ describe('Options Tests', () => {
         await options.waitForSelector('form.success');
         const storedValue = await waitForStoredValue(options, 'xdebugTraceTrigger');
         expect(storedValue).toBe(key);
+        await options.close();
     });
 
     test('Should set Profile Trigger correctly and save', async () => {
@@ -63,14 +82,15 @@ describe('Options Tests', () => {
         const options = await openOptions();
 
         // Act
-        const trigger = 'PROFILE_TRIGGER_TEST';
-        await options.locator('#profiletrigger').fill(trigger);
+        const key = 'PROFILE_TRIGGER_TEST';
+        await options.locator('#profiletrigger').fill(key);
         await options.locator('button[type="submit"]').click();
 
         // Assert
         await options.waitForSelector('form.success');
         const storedValue = await waitForStoredValue(options, 'xdebugProfileTrigger');
-        expect(storedValue).toBe(trigger);
+        expect(storedValue).toBe(key);
+        await options.close();
     });
 
 
@@ -79,14 +99,15 @@ describe('Options Tests', () => {
         const options = await openOptions();
 
         // Act
-        await options.type('#idekey', 'foo');
-        await options.type('#tracetrigger', 'bar');
-        await options.type('#profiletrigger', 'bat');
+        await options.locator('#idekey').fill('foo');
+        await options.locator('#tracetrigger').fill('bar');
+        await options.locator('#profiletrigger').fill('bat');
         await options.click('button[type="reset"]');
 
         // Assert
         await expect(options.$eval('#idekey', el => el.value)).resolves.toBe('');
         await expect(options.$eval('#tracetrigger', el => el.value)).resolves.toBe('');
         await expect(options.$eval('#profiletrigger', el => el.value)).resolves.toBe('');
+        await options.close();
     });
 });
