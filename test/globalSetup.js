@@ -6,7 +6,7 @@ module.exports = async function (globalConfig, projectConfig) {
     }
 
     global.server = http.createServer(function (req, res) {
-        res.write('Xdebug extension test page');
-        res.end();
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<h1>Xdebug extension test page</h1>');
     }).listen(8765);
 }
