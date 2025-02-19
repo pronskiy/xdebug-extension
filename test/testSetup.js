@@ -1,16 +1,19 @@
-const { launchBrowser, getExtensionPath } = require('./testUtils.js');
+const { getBrowser, getExtensionId } = require('./testUtils.js');
 
 beforeEach(async () => {
-    await launchBrowser();
-    await getExtensionPath();
+    global.browser = await getBrowser();
+    global.extensionId = await getExtensionId();
+    global.extensionPath = `chrome-extension://${global.extensionId}`;
 });
 
 afterEach(async () => {
     try {
-        if (browser) {
-            await browser.close();
+        if (global.browser) {
+            await global.browser.close();
         }
     } finally {
-        browser = null;
+        global.browser = null;
+        global.extensionId = null;
+        global.extensionPath = null;
     }
 });

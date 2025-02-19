@@ -1,9 +1,6 @@
 const {
     openPopup,
     openExamplePage,
-    findCookie,
-    waitForCookieToExist,
-    waitForCookieToClear,
 } = require('../testUtils.js');
 
 describe('Popup Tests', () => {
@@ -19,7 +16,7 @@ describe('Popup Tests', () => {
         await expect(popup.$('#options')).resolves.not.toBeNull(); // Options link
     });
 
-    test('Should toggle debug mode and sets XDEBUG_SESSION cookie', async () => {
+    test('Should toggle debug mode and set XDEBUG_SESSION cookie', async () => {
         // Arrange
         const page = await openExamplePage();
         const popup = await openPopup();
@@ -28,14 +25,15 @@ describe('Popup Tests', () => {
         await popup.locator('label[for="debug"]').click();
 
         // Assert
-        await waitForCookieToExist(page);
-        const cookies = await browser.cookies(config.examplePage);
-        const xdebugSessionCookie = findCookie(cookies, 'XDEBUG_SESSION');
+        const x = await page.waitForFunction(() => document.cookie);
+        const cookies = await global.browser.cookies();
+        const xdebugSessionCookie = cookies.find(cookie => cookie.name === 'XDEBUG_SESSION');
         expect(cookies.length).toBe(1);
         expect(xdebugSessionCookie.value).toBe(config.defaultKey);
+        await page.close();
     });
 
-    test('Should toggle trace mode and sets XDEBUG_TRACE cookie', async () => {
+    test('Should toggle trace mode and set XDEBUG_TRACE cookie', async () => {
         // Arrange
         const page = await openExamplePage();
         const popup = await openPopup();
@@ -44,30 +42,32 @@ describe('Popup Tests', () => {
         await popup.locator('label[for="trace"]').click();
 
         // Assert
-        await waitForCookieToExist(page);
-        const cookies = await browser.cookies(config.examplePage);
-        const xdebugTraceCookie = findCookie(cookies, 'XDEBUG_TRACE');
+        await page.waitForFunction(() => document.cookie);
+        const cookies = await global.browser.cookies();
+        const xdebugTraceCookie = cookies.find(cookie => cookie.name === 'XDEBUG_TRACE');
         expect(cookies.length).toBe(1);
         expect(xdebugTraceCookie.value).toBe(config.defaultKey);
+        await page.close();
     });
 
-    test('Should toggle profile mode and sets XDEBUG_PROFILE cookie', async () => {
+    test('Should toggle profile mode and set XDEBUG_PROFILE cookie', async () => {
         // Arrange
         const page = await openExamplePage();
-        const popup = await openPopup();
+        const popup = await openPopup()
 
         // Act
         await popup.locator('label[for="profile"]').click();
 
         // Assert
-        await waitForCookieToExist(page);
-        const cookies = await browser.cookies(config.examplePage);
-        const xdebugProfileCookie = findCookie(cookies, 'XDEBUG_PROFILE');
+        await page.waitForFunction(() => document.cookie);
+        const cookies = await global.browser.cookies();
+        const xdebugProfileCookie = cookies.find(cookie => cookie.name === 'XDEBUG_PROFILE');
         expect(cookies.length).toBe(1);
         expect(xdebugProfileCookie.value).toBe(config.defaultKey);
+        await page.close();
     });
 
-    test('Should toggle disabled mode and removes all cookies', async () => {
+    test('Should toggle disabled mode and remove all extension cookies', async () => {
         // Arrange
         const page = await openExamplePage();
         const popup = await openPopup();
@@ -76,12 +76,13 @@ describe('Popup Tests', () => {
         await popup.locator('label[for="disable"]').click();
 
         // Assert
-        await waitForCookieToClear(page);
-        const cookies = await browser.cookies(config.examplePage);
+        await page.waitForFunction(() => !document.cookie);
+        const cookies = await global.browser.cookies();
         expect(cookies.length).toBe(0);
+        await page.close();
     });
 
-    test('Should open options page in new tab', async () => {
+    test('Should open options page in new tab via the link', async () => {
         // Arrange
         const popup = await openPopup();
 
@@ -89,7 +90,10 @@ describe('Popup Tests', () => {
         await popup.click('#options');
 
         // Assert
-        const options = await browser.waitForTarget(target => target.url() === `${extensionPath}/options.html`);
+        const options = await global.browser.waitForTarget(
+            target =>
+                target.url() === `${global.extensionPath}/options.html`
+        );
         expect(options).toBeTruthy();
     });
 });
